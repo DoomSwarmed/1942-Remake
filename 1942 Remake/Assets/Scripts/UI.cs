@@ -21,5 +21,7 @@ public class UI : MonoBehaviour
             else
                 livesParent.transform.GetChild(i).gameObject.SetActive(true);
         }
+
+        scoreText.text = "Score\n" + playerClass.score.ToString("000000");
     }
 }

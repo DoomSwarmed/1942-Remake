@@ -7,17 +7,20 @@ public class AI : MonoBehaviour
     Rigidbody2D rb;
 
     public float moveSpeed = 1.0f;
+    public float rotationSpeed = 90.0f;
 
     public float rotationTimer = 1.0f;
     public bool rotatingRight = true;
 
     float timeUntilRotation = 0.0f;
-    float rotationSpeed = 90.0f;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        if (Random.Range(0, 2) == 0)
+            rotatingRight = !rotatingRight;
     }
 
     // Update is called once per frame

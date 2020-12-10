@@ -7,7 +7,11 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
 
     [Header("Prefabs")]
+    public GameObject bullet;
     public GameObject deathExplosion;
+
+    [Header("GameObjects")]
+    public GameObject enemyParent;
 
     [Header("Health")]
     public int maxHealth = 3;
@@ -16,8 +20,13 @@ public class Player : MonoBehaviour
     [Header("Movement")]
     public float moveSpeed = 1.0f;
 
+    [Header("Stats")]
+    public int score = 0;
+
     float h = 0.0f;
     float v = 0.0f;
+
+    float shootingCooldown = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +48,14 @@ public class Player : MonoBehaviour
             h = Mathf.Clamp(tilt.x * 3.0f, -1.0f, 1.0f);
             v = Mathf.Clamp(tilt.y * 3.0f, -1.0f, 1.0f);
         }
+
+        shootingCooldown += Time.deltaTime;
+
+        if ((h != 0.0f || v != 0.0f) && shootingCooldown >= 0.25f)
+        {
+            shootingCooldown = 0.0f;
+            ShootBullets();
+        }
     }
 
     void FixedUpdate()
@@ -46,18 +63,31 @@ public class Player : MonoBehaviour
         rb.velocity = new Vector3(h, v, 0.0f) * moveSpeed;
     }
 
+    void ShootBullets()
+    {
+        GameObject RightBullet = Instantiate(bullet, transform.position + new Vector3(0.35f, 0.3f, 0.0f), Quaternion.identity);
+        RightBullet.GetComponent<Projectile>().playerClass = transform.GetComponent<Player>();
+
+        GameObject LeftBullet = Instantiate(bullet, transform.position + new Vector3(-0.35f, 0.3f, 0.0f), Quaternion.identity);
+        LeftBullet.GetComponent<Projectile>().playerClass = transform.GetComponent<Player>();
+    }
+
     void EndGame()
     {
+        foreach (Transform enemy in enemyParent.transform)
+            Destroy(enemy.gameObject);
+
         health = maxHealth;
+        score = 0;
+        transform.position = new Vector3(0.0f, -6.0f, 0.0f);
     }
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.tag == "Enemy" || col.tag == "Bullet")
+        if (col.tag == "Enemy")
         {
             Destroy(col.gameObject);
             Instantiate(deathExplosion, col.transform.position, Quaternion.identity);
-            print("hit");
             health--;
             if (health <= 0)
                 EndGame();
