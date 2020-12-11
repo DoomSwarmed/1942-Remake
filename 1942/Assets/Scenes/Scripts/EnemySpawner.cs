@@ -25,7 +25,7 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator spawnPlanes(int count)
     {
         float xPos = 5.0f;
-        float yPos = Random.Range(-5.0f, 5.0f);
+        float yPos = Random.Range(0.0f, 5.0f);
 
         if (Random.Range(0, 2) == 0)
             xPos = -xPos;
