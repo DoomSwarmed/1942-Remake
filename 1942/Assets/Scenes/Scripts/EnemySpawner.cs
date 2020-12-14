@@ -6,7 +6,7 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemySmall;
 
-    public float spawnTime = 5.0f;
+    public float spawnTime = 2.0f;
     public float spawnTimer = 0.0f;
 
     // Update is called once per frame

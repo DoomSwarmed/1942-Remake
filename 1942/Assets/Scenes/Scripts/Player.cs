@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     Rigidbody2D rb;
+    SpriteRenderer play;
 
     [Header("Classes")]
     public UI uiClass;
@@ -15,6 +16,8 @@ public class Player : MonoBehaviour
 
     [Header("GameObjects")]
     public GameObject enemyParent;
+    public GameObject spawner;
+    public GameObject enemyBullet;
 
     [Header("Health")]
     public int maxHealth = 3;
@@ -26,13 +29,15 @@ public class Player : MonoBehaviour
     [Header("Joystick")]
     public Transform circle;
     public Transform outerCircle;
-
+    private bool tilter;
     private bool touchStart = false;
     private Vector2 pointA;
     private Vector2 pointB;
 
     [Header("Stats")]
     public int score = 0;
+    public int highScore;
+    public int compScore;
 
     float h = 0.0f;
     float v = 0.0f;
@@ -43,11 +48,13 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        play = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        HighScore();
         if (health > 0)
         {
             h = Input.GetAxisRaw("Horizontal");
@@ -96,7 +103,7 @@ public class Player : MonoBehaviour
 
             shootingCooldown += Time.deltaTime;
 
-            if ((h != 0.0f || v != 0.0f) && shootingCooldown >= 0.25f)
+            if ((h != 0.0f || v != 0.0f) && shootingCooldown >= 0.25f && gameObject.GetComponent<BoxCollider2D>().enabled == true)
             {
                 shootingCooldown = 0.0f;
                 ShootBullets();
@@ -124,10 +131,19 @@ public class Player : MonoBehaviour
             Destroy(enemy.gameObject);
 
         health = maxHealth;
+        compScore = score;
         score = 0;
         transform.position = new Vector3(0.0f, -6.0f, 0.0f);
 
         GetComponent<SpriteRenderer>().enabled = true;
+        GetComponent<BoxCollider2D>().enabled = true;
+    }
+
+    void HighScore()
+    {
+        compScore = score;
+        if (compScore > highScore)
+            highScore = compScore;
     }
 
     IEnumerator RespawnTimer()
@@ -139,15 +155,39 @@ public class Player : MonoBehaviour
         uiClass.EndGame();
     }
 
+    IEnumerator Repawn()
+    {
+        play.enabled = false;
+        GetComponent<BoxCollider2D>().enabled = false;
+        foreach (Transform enemy in enemyParent.transform)
+            Destroy(enemy.gameObject);
+        spawner.SetActive(false);
+        yield return new WaitForSeconds(1);
+        if (health == 0)
+            play.enabled = false;
+        else
+        {
+            transform.position = new Vector3(0.0f, -6.0f, 0.0f);
+            play.enabled = true;
+            GetComponent<BoxCollider2D>().enabled = true;
+            yield return new WaitForSeconds(1);
+            spawner.SetActive(true);
+        }
+        
+        
+
+    }
+
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.tag == "Enemy" && health > 0)
+        if (col.tag == "Enemy" && health > 0 || col.tag == "ebullet")
         {
             Destroy(col.gameObject);
             Instantiate(deathExplosion, col.transform.position, Quaternion.identity);
             health--;
             if (health == 0)
                 StartCoroutine(RespawnTimer());
+            StartCoroutine(Repawn());
         }
     }
 }

@@ -4,14 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.Audio;
 
 public class Menu : MonoBehaviour
 {
     RectTransform playButton;
     RectTransform settingsButton;
+    public GameObject options;
+    public GameObject mainMenu;
+    public AudioClip buttonPress;
+    public AudioSource spagetti;
+    public AudioMixer audioMixer;
 
     void Start()
     {
+        mainMenu.SetActive(true);
+        options.SetActive(false);
         playButton = transform.Find("Play").GetComponent<RectTransform>();
     }
 
@@ -22,6 +30,31 @@ public class Menu : MonoBehaviour
 
     public void Settings()
     {
-        print("There are no settings");
+        spagetti.PlayOneShot(buttonPress);
+        mainMenu.SetActive(false);
+        options.SetActive(true);
+    }
+
+    public void MenuMain()
+    {
+        spagetti.PlayOneShot(buttonPress);
+        mainMenu.SetActive(true);
+        options.SetActive(false);
+    }
+
+    public void SetVolumeMaster(float volume)
+    {
+        audioMixer.SetFloat("master", volume);
+    }
+
+    public void SetVolumeSFX(float volume)
+    {
+        audioMixer.SetFloat("SFX", volume);
+    }
+
+    public void SetVolumeMusic(float volume)
+    {
+        audioMixer.SetFloat("music", volume);
+        
     }
 }

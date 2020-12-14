@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6239252369291981735}
   - component: {fileID: 6239252369291981732}
   - component: {fileID: 6239252369291981734}
+  - component: {fileID: -6458450436909381047}
   m_Layer: 0
   m_Name: EnemySmall
   m_TagString: Enemy
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -266354855
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8585951ce4b60045ba8903370c072e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -148,3 +149,16 @@ MonoBehaviour:
   rotationSpeed: 45
   rotationTimer: 1
   rotatingRight: 1
+--- !u!114 &-6458450436909381047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6239252369291981739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 007356d7b43cb8d449e6f42bf3580cbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyBullet: {fileID: 8589433138077056462, guid: bc0a48ca03dc16742b25a137a856d7e0, type: 3}
