@@ -20,7 +20,6 @@ public class Menu : MonoBehaviour
     {
         mainMenu.SetActive(true);
         options.SetActive(false);
-        playButton = transform.Find("Play").GetComponent<RectTransform>();
     }
 
     public void StartGame()
@@ -40,6 +39,12 @@ public class Menu : MonoBehaviour
         spagetti.PlayOneShot(buttonPress);
         mainMenu.SetActive(true);
         options.SetActive(false);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
+        Debug.Log("Quitted");
     }
 
     public void SetVolumeMaster(float volume)

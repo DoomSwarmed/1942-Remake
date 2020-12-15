@@ -15,7 +15,7 @@ public class MovingCloud : MonoBehaviour
     {
         transform.position += new Vector3(cloudSpeed * Time.deltaTime, 0.0f, 0.0f);
 
-        if (transform.position.x > 1000.0f)
+        if (transform.position.x > 100000.0f)
             Destroy(gameObject);
     }
 }

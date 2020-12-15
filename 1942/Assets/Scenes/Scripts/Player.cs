@@ -162,7 +162,7 @@ public class Player : MonoBehaviour
         foreach (Transform enemy in enemyParent.transform)
             Destroy(enemy.gameObject);
         spawner.SetActive(false);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         if (health == 0)
             play.enabled = false;
         else

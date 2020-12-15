@@ -63,7 +63,7 @@ public class UI : MonoBehaviour
         currentScore.text = playerClass.compScore.ToString();
         currentScoreText.text = "Your Score:";
         gameOver.text = "game over";
-        playAgain.text = "tap to play again";
+        playAgain.text = "space to play again";
         gameOverScreen.SetActive(true);
         spawner.SetActive(false);
     }
